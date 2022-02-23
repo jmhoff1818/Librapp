@@ -11,7 +11,7 @@
   <h1> Librapp </h1>
 
   Librapp is an online database for book, comic, and novel readers everywhere. </br></br>
-
+  Nam Hoang <br>
   UserName:
 
   <input type="text" name="UserName" size=35 maxlength=35 value=""></br></br>
