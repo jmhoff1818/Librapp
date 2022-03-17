@@ -6,8 +6,8 @@ public class Book {
 	private double rating;
 
 	//------------------------------------------------------------ Constructors
-	public Book(String title, String author, String genre, String description,
-			int isbnNumber, double rating, String[] comments) {
+	public Book(String title, String author, String genre, int isbnNumber,
+			String[] comments, String description, double rating) {
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
