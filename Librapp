@@ -7,6 +7,7 @@
 </head>
 <body>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <div align="center">
   <h1> Librapp </h1>
 
@@ -19,6 +20,8 @@
 Password:
   <input type="text" name="Password" size=35 maxlength=35 value=""></br></br>
 =======
+=======
+>>>>>>> 1016a0fa4b65179742312336bee57b8bee52dd1b
 	<div class="container" id="container">
 		<div class="form-container log-in-container">
 			<form action="#">
@@ -41,6 +44,9 @@ Password:
 			</div>
 		</div>
 	</div>
+<<<<<<< HEAD
+>>>>>>> 1016a0fa4b65179742312336bee57b8bee52dd1b
+=======
 >>>>>>> 1016a0fa4b65179742312336bee57b8bee52dd1b
 </body>
 </html>
