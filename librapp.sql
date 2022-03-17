@@ -14,4 +14,8 @@ authorfName varchar (20),
 authorlName varchar (20),
 isbn varchar (13) NOT NULL,
 primary key(isbn)
+<<<<<<< HEAD
 );
+=======
+);
+>>>>>>> 81667a6a2ff82fe3b7795726d35e556f92a30d65
