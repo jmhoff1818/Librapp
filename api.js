@@ -6,7 +6,7 @@ $(document).ready(function() {
   var placeHldr = '<img src="https://via.placeholder.com/150">';
   var searchData;
 
-  //listener for search button
+  //listener for search title button
   $("#searchTitle").click(function() {
     outputList.innerHTML = ""; //empty html output
     document.body.style.backgroundImage = "url('')";
@@ -37,8 +37,110 @@ $(document).ready(function() {
           }
         });
       }
-      $("#search-box").val(""); //clean search box
+      $("#search-box").val(""); //clear search box
    });
+
+   //listener for search title button
+   $("#searchAuthor").click(function() {
+     outputList.innerHTML = ""; //empty html output
+     document.body.style.backgroundImage = "url('')";
+      searchData = $("#search-box").val();
+      //handling empty search input field
+      if(searchData === "" || searchData === null) {
+        displayError();
+      }
+     else {
+        // console.log(searchData);
+        // $.get("https://www.googleapis.com/books/v1/volumes?q="+searchData, getBookData()});
+        $.ajax({
+           url: bookUrl + searchData,
+           dataType: "json",
+           success: function(response) {
+             console.log(response)
+             if (response.totalItems === 0) {
+               alert("No results could be found for this search")
+             }
+             else {
+               $("#title").animate({'margin-top': '5px'}, 1000); //search box animation
+               $(".book-list").css("visibility", "visible");
+               displayResults(response);
+             }
+           },
+           error: function () {
+             alert("Something went wrong.. <br>"+"Try again!");
+           }
+         });
+       }
+       $("#search-box").val(""); //clear search box
+    });
+
+    //listener for search title button
+    $("#searchGenre").click(function() {
+      outputList.innerHTML = ""; //empty html output
+      document.body.style.backgroundImage = "url('')";
+       searchData = $("#search-box").val();
+       //handling empty search input field
+       if(searchData === "" || searchData === null) {
+         displayError();
+       }
+      else {
+         // console.log(searchData);
+         // $.get("https://www.googleapis.com/books/v1/volumes?q="+searchData, getBookData()});
+         $.ajax({
+            url: bookUrl + searchData,
+            dataType: "json",
+            success: function(response) {
+              console.log(response)
+              if (response.totalItems === 0) {
+                alert("No results could be found for this search")
+              }
+              else {
+                $("#title").animate({'margin-top': '5px'}, 1000); //search box animation
+                $(".book-list").css("visibility", "visible");
+                displayResults(response);
+              }
+            },
+            error: function () {
+              alert("Something went wrong.. <br>"+"Try again!");
+            }
+          });
+        }
+        $("#search-box").val(""); //clear search box
+     });
+
+     //listener for search title button
+     $("#trending").click(function() {
+       outputList.innerHTML = ""; //empty html output
+       document.body.style.backgroundImage = "url('')";
+        searchData = $("#search-box").val();
+        //handling empty search input field
+        if(searchData === "" || searchData === null) {
+          displayError();
+        }
+       else {
+          // console.log(searchData);
+          // $.get("https://www.googleapis.com/books/v1/volumes?q="+searchData, getBookData()});
+          $.ajax({
+             url: bookUrl + searchData,
+             dataType: "json",
+             success: function(response) {
+               console.log(response)
+               if (response.totalItems === 0) {
+                 alert("No results could be found for this search")
+               }
+               else {
+                 $("#title").animate({'margin-top': '5px'}, 1000); //search box animation
+                 $(".book-list").css("visibility", "visible");
+                 displayResults(response);
+               }
+             },
+             error: function () {
+               alert("Something went wrong.. <br>"+"Try again!");
+             }
+           });
+         }
+         $("#search-box").val(""); //clear search box
+      });
 
    /*
    * function to display result in search.html

@@ -55,8 +55,12 @@ button{
   background-color: #FF4B2B;
   color: #FFFFFF;
   padding: 7px 16px;
-  text-decoration: none;
   display: block;
+  border: none;
+}
+
+.btn btn-primary{
+  background-color: #FF4B2B;
 }
 
 .book-list {
