@@ -11,10 +11,41 @@
 				<h1>Librapp Signup</h1>
 				<h2></h2>
 				<h3></h3>
-				<input type="email" placeholder="Email" name="email"/>
-				<input type="password" placeholder="Create Password" name="Password" />
+				<input type="email" id= "txtName" placeholder="Email" name="email"/>
+				<input type="password" id= "txtPass" placeholder="Create Password" name="Password" />
         <input type="password" placeholder="Confirm Password" />
-				<button><a href=""> Sign Up! </button>
+				<button type="button" id="bt" value="Save data to file" onclick="saveFile()">Sign Up! </button>
+					<script>
+					let saveFile = () => {
+
+        // Get the data from each element on the form.
+    	const name = document.getElementById('txtName');
+      const age = document.getElementById('txtPass');
+
+        // This variable stores all the data.
+        let data =
+            '\r Name: ' + name.value + ' \r\n ' +
+            'Pass: ' +age.value;
+
+        // Convert the text to BLOB.
+        const textToBLOB = new Blob([data], { type: 'text/plain' });
+        const sFileName = 'writer.txt';	   // The file to save the data.
+
+        let newLink = document.createElement("a");
+        newLink.download = sFileName;
+
+        if (window.webkitURL != null) {
+            newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+        }
+        else {
+            newLink.href = window.URL.createObjectURL(textToBLOB);
+            newLink.style.display = "none";
+            document.body.appendChild(newLink);
+        }
+
+        newLink.click();
+    }
+					</script>
 				<a href="#"></a>
 			</form>
 		</div>
