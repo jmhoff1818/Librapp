@@ -40,7 +40,7 @@ $(document).ready(function() {
       $("#search-box").val(""); //clear search box
    });
 
-   //listener for search title button
+   //listener for search author button
    $("#searchAuthor").click(function() {
      outputList.innerHTML = ""; //empty html output
      document.body.style.backgroundImage = "url('')";
@@ -74,7 +74,7 @@ $(document).ready(function() {
        $("#search-box").val(""); //clear search box
     });
 
-    //listener for search title button
+    //listener for search genre button
     $("#searchGenre").click(function() {
       outputList.innerHTML = ""; //empty html output
       document.body.style.backgroundImage = "url('')";
@@ -108,7 +108,7 @@ $(document).ready(function() {
         $("#search-box").val(""); //clear search box
      });
 
-     //listener for search title button
+     //listener for trending button
      $("#trending").click(function() {
        outputList.innerHTML = ""; //empty html output
        document.body.style.backgroundImage = "url('')";
