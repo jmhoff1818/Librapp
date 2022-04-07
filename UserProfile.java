@@ -91,8 +91,8 @@ public class UserProfile{
   // testing method
   public static void main(String[] args) {
     String userName = "hoangnd@miamioh.edu";
-    String firstName = "hoangnd@miamioh.edu";
-    String lastName = "hoangnd@miamioh.edu";
+    String firstName = "Nam";
+    String lastName = "Hoang";
     Password pass = new Password("miami");
     Picture avatar = new Picture();
     ArrayList<UserProfile> friends = new ArrayList();
