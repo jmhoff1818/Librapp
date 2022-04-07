@@ -7,7 +7,7 @@ $(document).ready(function() {
   var searchData;
 
   //listener for search button
-  $("#search").click(function() {
+  $("#searchTitle").click(function() {
     outputList.innerHTML = ""; //empty html output
     document.body.style.backgroundImage = "url('')";
      searchData = $("#search-box").val();
@@ -91,7 +91,7 @@ $(document).ready(function() {
                <h5 class="card-title">${title}</h5>
                <p class="card-text">Author: ${author}</p>
                <p class="card-text">Publisher: ${publisher}</p>
-               <a target="_blank" href="${viewUrl}" class="btn btn-secondary">Read Book</a>
+               <a target="_blank" href="${viewUrl}" class="btn btn-secondary">View Book</a>
              </div>
            </div>
          </div>

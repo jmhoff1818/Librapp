@@ -21,17 +21,19 @@ body {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
+  background-color  : #f1f1f1;
+  min-width: 104px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
-.dropdown-content a {
+.dropdown-content button {
   color: black;
+  background-color: #F1f1f1;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  border: none;
 }
 
 .center {
@@ -52,6 +54,9 @@ h2 {
 button{
   background-color: #FF4B2B;
   color: #FFFFFF;
+  padding: 7px 16px;
+  text-decoration: none;
+  display: block;
 }
 
 .book-list {
@@ -59,4 +64,4 @@ button{
   visibility: hidden;
 }
 .dropdown:hover .dropdown-content {display: block;}
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content button:hover {background-color: #ddd;}
