@@ -44,6 +44,7 @@ public class Server implements HttpHandler {
     String fileName = "writer.txt";
     // prepare
     boolean exist = false;
+    boolean userExist = false;  // only check the user
     // check if the pair of user and password already exist
     try {
       Scanner myReader = new Scanner(new File(fileName));
@@ -51,8 +52,12 @@ public class Server implements HttpHandler {
         String data = myReader.nextLine();
         String thisUser = data.split(",")[0];
         String thisPass = data.split(",")[1];
-        if (user.equals(thisUser) && pass.equals(thisPass)) {
-          exist = true;
+        if (user.equals(thisUser)) {
+          userExist = true;
+          if (pass.equals(thisPass)) {
+            exist = true;
+            break;
+          }
         }
       }
       myReader.close();
@@ -64,7 +69,7 @@ public class Server implements HttpHandler {
     // then, do the register or login
     if (type.equals("register")) {
       // if there's already an account
-      if (exist) {
+      if (userExist) {
         return "Already have an account";
       }
       // otherwise, write the information to a text file (later database)
@@ -109,7 +114,7 @@ public class Server implements HttpHandler {
     }
 
     public static void main(String[] args) {
-      int portNum = 8004;
+      int portNum = 8005;
       try {
         HttpServer server = HttpServer.create(new InetSocketAddress("localhost", portNum), 0);
         server.createContext("/test", new Server());
