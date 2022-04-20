@@ -3,20 +3,60 @@
 <head>
 	<link rel="stylesheet" href="Librapp.css">
 	<title>Login</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
+	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+	<script>
+		// Main function
+		$(document).ready(function() {
+			// if the sign up button is clicked
+			$('#login').click(function() {
+				// getting the form values (email, password, ...)
+				var email = $('#user').val();
+				var pass = $('#pass').val();
+				console.log(email, pass);
+				// send the data to the server
+				console.log("sending");
+				sendData(email, pass);
+			});
+		});
+
+		// Send the username and password to server
+		function sendData(user, pass) {
+			a = $.ajax({
+				url: `http://localhost:8010/test?login?${user}?${pass}`,
+				method: 'GET'
+			}).done(function(data) {
+				console.log(data);
+				// data is either 'true' or 'false',
+				// so handle result accordingly.
+				if (data === 'true') {
+					// Login succesfully
+					location.href = "search.html";
+				} else {
+					alert('Login fail. Please try again.');
+					$('#user').val('');
+					$('#pass').val('');
+				}
+			}).fail(function(error) {
+				console.log("error: ", error.statusText);
+			});
+		}
+	</script>
 </head>
 <body>
 <div align="center">
 	<div class="container" id="container">
 		<div class="form-container log-in-container">
-			<form action="#">
+			<div id="form">
 				<h1>Librapp Login</h1>
 				<h2></h2>
 				<h3></h3>
-				<input type="email" placeholder="Email" />
-				<input type="password" placeholder="Password" />
+				<input id="user" type="email" placeholder="Email" />
+				<input id="pass" type="password" placeholder="Password" />
 				<a href="#">Forgot your password?</a>
-				<button><a href="search.html"> Log in Here </button>
-			</form>
+				<button id="login"><a> Log in Here </button>
+			</div>
 		</div>
 		<div class="overlay-container">
 			<div class="overlay">

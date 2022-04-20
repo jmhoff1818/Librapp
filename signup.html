@@ -2,25 +2,85 @@
 <html>
 <head>
 	<link rel="stylesheet" href="Librapp.css">
-	<title>Login</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
+	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+	<title>Signup</title>
+	<script>
+		// Main function
+		$(document).ready(function() {
+			// if the sign up button is clicked
+			$('#bt').click(function() {
+				// getting the form values (email, password, ...)
+				var email = $('#txtName').val();
+				var pass = $('#txtPass').val();
+				var rePass = $('#confirmPass').val();
+				console.log(email, pass, rePass);
+				// checking if password is typed correctly
+				if (typeCheck(pass, rePass)) {
+					// send the data to the server
+					console.log("sending");
+					sendData(email, pass);
+				};
+			});
+		});
+
+		// Send the username and password to server
+		function sendData(user, pass) {
+			a = $.ajax({
+				url: `http://localhost:8010/test?register?${user}?${pass}`,
+				method: 'GET'
+			}).done(function(data) {
+				// data is either 'true' or 'false',
+				// so handle result accordingly.
+				if (data === 'true') {
+					alert('Done registering');
+				} else {
+					alert('This username has already been taken. Please choose another name');
+				}
+				// reset all the field
+				$('#txtName').val('');
+				$('#txtPass').val('');
+				$('#confirmPass').val('');
+			}).fail(function(error) {
+				console.log("error: ", error.statusText);
+			});
+		}
+
+		// Check retyping password
+		function typeCheck(pass1, pass2) {
+			// if they are the same, then nothing happen
+			if (pass1 === pass2) {
+				return true;
+			}
+			// alert and clear the field for retyping
+			alert("The two passwords provided don't match. Please retype them again");
+			$('#txtPass').val('');
+			$('#confirmPass').val('');
+			return false;
+		}
+	</script>
 </head>
 <body>
 	<div class="container" id="container">
 		<div class="form-container log-in-container">
-			<form action="#" action="connect.php" method="post">
+			<!-- <form action="#" action="connect.php" method="post"> -->
+			<div id="form">
 				<h1>Librapp Signup</h1>
 				<h2></h2>
 				<h3></h3>
 				<input type="email" id= "txtName" placeholder="Email" name="email"/>
 				<input type="password" id= "txtPass" placeholder="Create Password" name="Password" />
-        <input type="password" placeholder="Confirm Password" />
-<<<<<<< HEAD
-				<button type="button" id="bt" value="Save data to file" onclick="saveFile()" name="save">Sign Up! </button>
-					<script>
-=======
+        <input type="password" id="confirmPass" placeholder="Confirm Password" />
+<!-- <<<<<<< HEAD -->
+				<!-- <button type="button" id="bt" value="Save data to file" onclick="saveFile()" name="save">Sign Up! </button> -->
+				<button id="bt">Sign Up! </button>
+					<!-- <script>
+// =======
 				<button type="button" id="bt" value="Save data to file" onclick="saveFile()">Sign Up! </button>
 					<!-- <script>
->>>>>>> bca68e7a212a06166ec2be53f08e1e72ee4cc616
+// >>>>>>> bca68e7a212a06166ec2be53f08e1e72ee4cc616
 					let saveFile = () => {
 
         // Get the data from each element on the form.
@@ -51,8 +111,9 @@
         newLink.click();
     }
 					</script> -->
-				<a href="#"></a>
-			</form>
+				<!-- <a href="#"></a> -->
+			</div>
+			<!-- </form> -->
 		</div>
 		<div class="overlay-container">
 			<div class="overlay">
