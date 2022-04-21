@@ -26,14 +26,8 @@ $(document).ready(function() {
      $("#trending").click(function() {
        outputList.innerHTML = ""; //empty html output
        document.body.style.backgroundImage = "url('')";
-        searchData = $("#search-box").val();
-        //handling empty search input field
-        if(searchData === "" || searchData === null) {
-          displayError();
-        }
-       else {
           $.ajax({
-             url: bookUrl + searchData,
+             url: bookUrl + "trending",
              dataType: "json",
              success: function(response) {
                console.log(response)
@@ -50,7 +44,6 @@ $(document).ready(function() {
                alert("Something went wrong.. <br>"+"Try again!");
              }
            });
-         }
          $("#search-box").val(""); //clear search box
       });
 
@@ -84,7 +77,7 @@ $(document).ready(function() {
       }
       $("#search-box").val(""); //clear search box
   }
-  
+
    //function to display result in search.html
    function displayResults(response) {
       for (var i = 0; i < response.items.length; i+=2) {
