@@ -17,14 +17,14 @@ public class dbConnect {
   public String url, userName, password;
   Connection con;
 
-  // // main static method
-  // public static void main(String[] mode) {
-  //   System.out.println("hello");
-  //   // testing
-  //   dbConnect connection = new dbConnect("jdbc:mysql://localhost:3306/testing", "root", "namCse201");
-  //   Boolean test = connection.updateAcc("nina", "asdfadsf");
-  //   System.out.println(test);
-  // }
+  // main static method
+  public static void main(String[] mode) {
+    System.out.println("hello");
+    // testing
+    dbConnect connection = new dbConnect("jdbc:mysql://35.223.64.237:3306/librapp", "root", "thisIsCse201");
+    // Boolean test = connection.updateAcc("nina", "asdfadsf");
+    // System.out.println(test);
+  }
 
   // constructor
   public dbConnect(String url, String userName, String password) {
@@ -74,7 +74,7 @@ public class dbConnect {
         // create statement
         st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         // craft query
-        String query = String.format("SELECT * FROM profile WHERE userName = '%s' AND password = '%s'", userName, password);
+        String query = String.format("SELECT * FROM profile WHERE email = '%s' AND password = '%s'", userName, password);
         System.out.println(query);
         // and send queries
         ResultSet res = st.executeQuery(query);
@@ -108,12 +108,12 @@ public class dbConnect {
       // create statement
       st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
       // first check if user already exit
-      String query = String.format("SELECT * FROM profile WHERE userName = '%s'", userName);
+      String query = String.format("SELECT * FROM profile WHERE email = '%s'", userName);
       System.out.println(query);
       ResultSet res = st.executeQuery(query);
       if (!res.last()) {  // if there's no row
         // craft second query
-        String query2 = String.format("INSERT INTO profile(userName, email, password) VALUES('%s', '%s', '%s')", userName, userName, password);
+        String query2 = String.format("INSERT INTO profile(email, password) VALUES('%s', '%s')", userName, password);
         System.out.println(query2);
         // and send queries
         st.executeUpdate(query2);
