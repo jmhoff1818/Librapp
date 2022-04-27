@@ -123,6 +123,7 @@ $(document).ready(function() {
                <p class="card-text">Author: ${author}</p>
                <p class="card-text">Publisher: ${publisher}</p>
                <a target="_blank" href="${viewUrl}" class="btn btn-secondary">View Book</a>
+               <a target="_blank" href="" class = "btn btn-secondary"> Save Book </a>
              </div>
            </div>
          </div>
