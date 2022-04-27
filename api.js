@@ -27,7 +27,7 @@ $(document).ready(function() {
        outputList.innerHTML = ""; //empty html output
        document.body.style.backgroundImage = "url('')";
           $.ajax({
-             url: bookUrl + "trending",
+             url: `http://localhost:8010/test?search?trending`,
              dataType: "json",
              success: function(response) {
                console.log(response)
@@ -57,7 +57,7 @@ $(document).ready(function() {
      }
     else {
        $.ajax({
-          url: bookUrl + searchData,
+          url: `http://localhost:8010/test?search?${searchType}?${searchData}`,
           dataType: "json",
           success: function(response) {
             console.log(response)
