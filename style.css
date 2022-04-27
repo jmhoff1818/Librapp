@@ -64,6 +64,33 @@ button{
   background-color: #FF4B2B;
 }
 
+/* Style the navigation bar */
+.navbar {
+  width: 100%;
+  background-color: #222;
+  overflow: auto;
+}
+
+/* Navbar links */
+.navbar a {
+  float: left;
+  text-align: center;
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Navbar links on mouse-over */
+.navbar a:hover {
+  background-color: #555;
+}
+
+/* Current/active navbar link */
+.active {
+  background-color: #FF4B2B;
+}
+
 .book-list {
   margin-top: 50px;
   visibility: hidden;
