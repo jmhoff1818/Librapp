@@ -42,57 +42,6 @@ public class Server implements HttpHandler {
   }
 
   public Boolean processing(String type, String user, String pass) {
-<<<<<<< HEAD
-    // File name
-    String fileName = "writer.txt";
-    // prepare
-    boolean exist = false;
-    boolean userExist = false;  // only check the user
-    // check if the pair of user and password already exist
-    try {
-      Scanner myReader = new Scanner(new File(fileName));
-      while (myReader.hasNextLine()) {
-        String data = myReader.nextLine();
-        String thisUser = data.split(",")[0];
-        String thisPass = data.split(",")[1];
-        if (user.equals(thisUser)) {
-          userExist = true;
-          if (pass.equals(thisPass)) {
-            exist = true;
-            break;
-          }
-        }
-      }
-      myReader.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("Error process - reading");
-      e.printStackTrace();
-    }
-
-    // then, do the register or login
-    if (type.equals("register")) {
-      // if there's already an account
-      if (userExist) {
-        return false;  // Already have an account
-      }
-      // otherwise, write the information to a text file (later database)
-      try {
-        FileWriter fw = new FileWriter(new File(fileName), true);
-        BufferedWriter writer = new BufferedWriter(fw);
-        writer.write(user + "," + pass + "\n");
-        writer.close();
-      } catch (IOException e) {
-        System.out.println("Error processing - writing");
-        e.printStackTrace();
-      }
-      return true;  // Done registering
-    } else {  // if this is a login
-      if (exist) {
-        return true;  // Login succesfully
-      } else {
-        return false;  // Login fail;
-      }
-=======
     // Connect to database
     System.out.println("hello");
     // dbConnect connection = new dbConnect("jdbc:mysql://localhost:3306/testing", "root", "namCse201");
@@ -103,7 +52,6 @@ public class Server implements HttpHandler {
       return connection.updateAcc(user, pass);
     } else {  // if this is a login
       return connection.checkAcc(user, pass);
->>>>>>> c2eaa2594a7ec5070a3b79e0b5e7b049566be5e7
     }
   }
 

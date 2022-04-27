@@ -17,14 +17,14 @@ public class dbConnect {
   public String url, userName, password;
   Connection con;
 
-  // main static method
-  public static void main(String[] mode) {
-    System.out.println("hello");
-    // testing
-    dbConnect connection = new dbConnect("jdbc:mysql://35.223.64.237:3306/librapp", "root", "thisIsCse201");
-    // Boolean test = connection.updateAcc("nina", "asdfadsf");
-    // System.out.println(test);
-  }
+  // // main static method
+  // public static void main(String[] mode) {
+  //   System.out.println("hello");
+  //   // testing
+  //   dbConnect connection = new dbConnect("jdbc:mysql://35.223.64.237:3306/librapp", "root", "thisIsCse201");
+  //   // Boolean test = connection.updateAcc("nina", "asdfadsf");
+  //   // System.out.println(test);
+  // }
 
   // constructor
   public dbConnect(String url, String userName, String password) {
