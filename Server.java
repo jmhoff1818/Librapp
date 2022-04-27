@@ -17,7 +17,7 @@ public class Server implements HttpHandler {
 
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
-    String requestParamValue = null;
+    Boolean requestParamValue = false;
     if("GET".equals(httpExchange.getRequestMethod())) {
        requestParamValue = handleGetRequest(httpExchange);
     }
@@ -27,7 +27,9 @@ public class Server implements HttpHandler {
     handleResponse(httpExchange,requestParamValue);
   }
 
-  public String handleGetRequest(HttpExchange httpExchange) {
+  public Boolean handleGetRequest(HttpExchange httpExchange) {
+    // METADATA
+    // url has this type: 'http://localhost:8006/test?[register/login]?[user]?[pass]'
     // parse uri from http request
     String url = httpExchange.getRequestURI().toString();
     System.out.println("Testing1: " + url);
@@ -39,7 +41,7 @@ public class Server implements HttpHandler {
     return processing(type, user, pass);
   }
 
-  public String processing(String type, String user, String pass) {
+  public Boolean processing(String type, String user, String pass) {
     // File name
     String fileName = "writer.txt";
     // prepare
@@ -70,7 +72,7 @@ public class Server implements HttpHandler {
     if (type.equals("register")) {
       // if there's already an account
       if (userExist) {
-        return "Already have an account";
+        return false;  // Already have an account
       }
       // otherwise, write the information to a text file (later database)
       try {
@@ -82,31 +84,33 @@ public class Server implements HttpHandler {
         System.out.println("Error processing - writing");
         e.printStackTrace();
       }
-      return "Done registering";
+      return true;  // Done registering
     } else {  // if this is a login
       if (exist) {
-        return "Login succesfully";
+        return true;  // Login succesfully
       } else {
-        return "Login fail";
+        return false;  // Login fail;
       }
     }
   }
 
-   private void handleResponse(HttpExchange httpExchange, String requestParamValue)  throws  IOException {
+   private void handleResponse(HttpExchange httpExchange, Boolean requestParamValue)  throws  IOException {
       OutputStream outputStream = httpExchange.getResponseBody();
       /*Testing*/
-      StringBuilder htmlBuilder = new StringBuilder();
-      htmlBuilder.append("<html>").
-            append("<body>").
-            append("<h1>")
-            .append(requestParamValue)
-            .append("</h1>")
-            .append("</body>")
-            .append("</html>");
-      // encode HTML content
-      String htmlResponse = htmlBuilder.toString();
+      // StringBuilder htmlBuilder = new StringBuilder();
+      // htmlBuilder.append("<html>").
+      //       append("<body>").
+      //       append("<h1>")
+      //       .append(requestParamValue)
+      //       .append("</h1>")
+      //       .append("</body>")
+      //       .append("</html>");
+      // // encode HTML content
+      String htmlResponse = requestParamValue.toString();
+      System.out.println(htmlResponse);
       /*Testing*/
-      // this line is a must
+      // crafting the response headers
+      httpExchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
       httpExchange.sendResponseHeaders(200, htmlResponse.length());
       outputStream.write(htmlResponse.getBytes());
       outputStream.flush();
@@ -114,7 +118,7 @@ public class Server implements HttpHandler {
     }
 
     public static void main(String[] args) {
-      int portNum = 8005;
+      int portNum = 8010;
       try {
         HttpServer server = HttpServer.create(new InetSocketAddress("localhost", portNum), 0);
         server.createContext("/test", new Server());
