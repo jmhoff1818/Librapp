@@ -95,7 +95,8 @@ public class Server implements HttpHandler {
 =======
     // Connect to database
     System.out.println("hello");
-    dbConnect connection = new dbConnect("jdbc:mysql://localhost:3306/testing", "root", "namCse201");
+    // dbConnect connection = new dbConnect("jdbc:mysql://localhost:3306/testing", "root", "namCse201");
+    dbConnect connection = new dbConnect("jdbc:mysql://35.223.64.237:3306/librapp", "root", "thisIsCse201");
 
     // Then, do the register or login
     if (type.equals("register")) {  // register
