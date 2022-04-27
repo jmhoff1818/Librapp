@@ -42,6 +42,7 @@ public class Server implements HttpHandler {
   }
 
   public Boolean processing(String type, String user, String pass) {
+<<<<<<< HEAD
     // File name
     String fileName = "writer.txt";
     // prepare
@@ -91,6 +92,17 @@ public class Server implements HttpHandler {
       } else {
         return false;  // Login fail;
       }
+=======
+    // Connect to database
+    System.out.println("hello");
+    dbConnect connection = new dbConnect("jdbc:mysql://localhost:3306/testing", "root", "namCse201");
+
+    // Then, do the register or login
+    if (type.equals("register")) {  // register
+      return connection.updateAcc(user, pass);
+    } else {  // if this is a login
+      return connection.checkAcc(user, pass);
+>>>>>>> c2eaa2594a7ec5070a3b79e0b5e7b049566be5e7
     }
   }
 
