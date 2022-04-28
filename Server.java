@@ -1,3 +1,4 @@
+import java.util.ArrayList; // import the ArrayList class
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -17,45 +18,75 @@ public class Server implements HttpHandler {
 
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
-    Boolean requestParamValue = false;
+    String htmlResponse = "";
     if("GET".equals(httpExchange.getRequestMethod())) {
-       requestParamValue = handleGetRequest(httpExchange);
+       htmlResponse = handleGetRequest(httpExchange);
     }
      // else if("POST".equals(httpExchange)) {
      //   requestParamValue = handlePostRequest(httpExchange);
      //  }
-    handleResponse(httpExchange,requestParamValue);
+    handleResponse(httpExchange, htmlResponse);
   }
 
-  public Boolean handleGetRequest(HttpExchange httpExchange) {
+  public String handleGetRequest(HttpExchange httpExchange) {
     // METADATA
     // url has this type: 'http://localhost:8006/test?[register/login]?[user]?[pass]'
     // parse uri from http request
     String url = httpExchange.getRequestURI().toString();
-    System.out.println("Testing1: " + url);
-    String type = url.split("\\?")[1]; // either "register" or "login"
-    String user = url.split("\\?")[2];
-    String pass = url.split("\\?")[3];
-    System.out.println("Testing2: " + type + ", " + user + ", " + pass);
+    System.out.println("\nServer Testing1: " + url);
+    // parameters
+    String[] params = url.split("\\?");
+    String type = params[1]; // either "register", "login", or "search"
+    // String user = url.split("\\?")[2];
+    // String pass = url.split("\\?")[3];
+    System.out.println("Server Testing2 - execute type: " + type);
     // main processing
-    return processing(type, user, pass);
+    return processing(type, params);
   }
 
-  public Boolean processing(String type, String user, String pass) {
+  public String processing(String type, String[] params) {
     // Connect to database
-    System.out.println("hello");
+    System.out.println("Connecting to db...");
     // dbConnect connection = new dbConnect("jdbc:mysql://localhost:3306/testing", "root", "namCse201");
     dbConnect connection = new dbConnect("jdbc:mysql://35.223.64.237:3306/librapp", "root", "thisIsCse201");
-
     // Then, do the register or login
     if (type.equals("register")) {  // register
-      return connection.updateAcc(user, pass);
-    } else {  // if this is a login
-      return connection.checkAcc(user, pass);
+      String user = params[2];
+      String pass = params[3];
+      String fName = params[4];
+      String lName = params[5];
+      return connection.updateAcc(user, pass, fName, lName).toString();
+    } else if (type.equals("login")) {  // if this is a login
+      String user = params[2];
+      String pass = params[3];
+      return connection.checkAcc(user, pass).toString();
+    } else {  // if this means search
+      String metric = params[2];
+      if (metric.equals("trending")) {  // get result based on rating
+        ArrayList<ArrayList<String>> res = connection.trending();
+        // testiing
+        for (ArrayList<String> row :res) {
+          for (String entry : row) {
+            System.out.print(entry + ", ");
+          }
+          System.out.println();
+        }
+      } else {  // get result based on metric
+        String searchData = params[3];
+        ArrayList<ArrayList<String>> res = connection.search(metric, searchData);
+        // testiing
+        for (ArrayList<String> row :res) {
+          for (String entry : row) {
+            System.out.print(entry + ",");
+          }
+          System.out.println();
+        }
+      }
+      return "good";  //d
     }
   }
 
-   private void handleResponse(HttpExchange httpExchange, Boolean requestParamValue)  throws  IOException {
+   private void handleResponse(HttpExchange httpExchange, String htmlResponse)  throws  IOException {
       OutputStream outputStream = httpExchange.getResponseBody();
       /*Testing*/
       // StringBuilder htmlBuilder = new StringBuilder();
@@ -67,7 +98,7 @@ public class Server implements HttpHandler {
       //       .append("</body>")
       //       .append("</html>");
       // // encode HTML content
-      String htmlResponse = requestParamValue.toString();
+
       System.out.println(htmlResponse);
       /*Testing*/
       // crafting the response headers

@@ -13,23 +13,25 @@
 			// if the sign up button is clicked
 			$('#bt').click(function() {
 				// getting the form values (email, password, ...)
-				var email = $('#txtName').val();
-				var pass = $('#txtPass').val();
+				var email = $('#email').val();
+				var pass = $('#password').val();
+				var fName = $('#fNametxt').val();
+				var lName = $('#lNametxt').val();
 				var rePass = $('#confirmPass').val();
-				console.log(email, pass, rePass);
+				console.log(email, pass, fName, lName, rePass);
 				// checking if password is typed correctly
 				if (typeCheck(pass, rePass)) {
 					// send the data to the server
 					console.log("sending");
-					sendData(email, pass);
+					sendData(email, pass, fName, lName);
 				};
 			});
 		});
 
 		// Send the username and password to server
-		function sendData(user, pass) {
+		function sendData(user, pass, fName, lName) {
 			a = $.ajax({
-				url: `http://localhost:8010/test?register?${user}?${pass}`,
+				url: `http://localhost:8010/test?register?${user}?${pass}?${fName}?${lName}`,
 				method: 'GET'
 			}).done(function(data) {
 				// data is either 'true' or 'false',
@@ -40,9 +42,11 @@
 					alert('This username has already been taken. Please choose another name');
 				}
 				// reset all the field
-				$('#txtName').val('');
-				$('#txtPass').val('');
+				$('#email').val('');
+				$('#password').val('');
 				$('#confirmPass').val('');
+				$('#fNametxt').val('');
+				$('#lNametxt').val('');
 			}).fail(function(error) {
 				console.log("error: ", error.statusText);
 			});
@@ -56,7 +60,7 @@
 			}
 			// alert and clear the field for retyping
 			alert("The two passwords provided don't match. Please retype them again");
-			$('#txtPass').val('');
+			$('#password').val('');
 			$('#confirmPass').val('');
 			return false;
 		}
@@ -74,6 +78,7 @@
 				<input type="lName" id= "lNametxt" placeholder="Last Name" name="lName" />
         <input type="email" id="email" placeholder="Email" name = "email" />
 				<input type="password" id="password" placeholder="Password" name = "password" />
+				<input type="password" id="confirmPass" placeholder="Confirm Password" />
 <!-- <<<<<<< HEAD -->
 				<!-- <button type="button" id="bt" value="Save data to file" onclick="saveFile()" name="save">Sign Up! </button> -->
 				<button id="bt">Sign Up! </button>

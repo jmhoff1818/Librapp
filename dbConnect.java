@@ -3,6 +3,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList; // import the ArrayList class
+
 
 //"jdbc:mysql://localhost:3306/testing", "root", "namCse201"
 
@@ -99,7 +101,7 @@ public class dbConnect {
     return check;
   }
 
-  public Boolean updateAcc(String userName, String password) {
+  public Boolean updateAcc(String userName, String password, String fName, String lName) {
     // initialize final return
     Boolean update = new Boolean(false);
     // let's go
@@ -113,7 +115,7 @@ public class dbConnect {
       ResultSet res = st.executeQuery(query);
       if (!res.last()) {  // if there's no row
         // craft second query
-        String query2 = String.format("INSERT INTO profile(email, password) VALUES('%s', '%s')", userName, password);
+        String query2 = String.format("INSERT INTO profile(email, password, fName, lname) VALUES('%s', '%s', '%s', '%s')", userName, password, fName, lName);
         System.out.println(query2);
         // and send queries
         st.executeUpdate(query2);
@@ -133,5 +135,79 @@ public class dbConnect {
     }
     // result
     return update;
+  }
+
+  public ArrayList<ArrayList<String>> search(String metric, String searchData) {
+    // initialize final return
+    ArrayList<ArrayList<String>> table = new ArrayList<ArrayList<String>>();
+    // let's go
+    Statement st = null;
+    try {
+      // create statement
+      st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+      // first check if user already exit
+      String query = String.format("SELECT * FROM book WHERE %s LIKE '%%%s%%'", metric, searchData);
+      System.out.println(query);
+      ResultSet res = st.executeQuery(query);
+      // add query data into returned DS
+      int numCol = res.getMetaData().getColumnCount();
+      while (res.next()) {  // for each row
+        ArrayList<String> row = new ArrayList<String>();
+        // adding each column
+        for (int i = 1; i <= numCol; i++) {
+          row.add(res.getString(i));
+        }
+        table.add(row);
+      }
+    } catch (SQLException e ) {
+      System.err.println("Searching fail: \n" + e);
+    } finally {  // close the statement connection
+      try {
+        if (st != null) {
+          st.close();
+        }
+      } catch(SQLException ex) {
+        System.out.println(ex.getMessage());
+      }
+    }
+    // result
+    return table;
+  }
+
+  public ArrayList<ArrayList<String>> trending() {
+    // initialize final return
+    ArrayList<ArrayList<String>> table = new ArrayList<ArrayList<String>>();
+    // let's go
+    Statement st = null;
+    try {
+      // create statement
+      st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+      // first check if user already exit
+      String query = "SELECT * FROM book WHERE rating > 3 ORDER BY rating DESC";
+      System.out.println(query);
+      ResultSet res = st.executeQuery(query);
+      // add query data into returned DS
+      int numCol = res.getMetaData().getColumnCount();
+      while (res.next()) {  // for each row
+        ArrayList<String> row = new ArrayList<String>();
+        // adding each column
+        for (int i = 1; i <= numCol; i++) {
+          row.add(res.getString(i));
+        }
+        table.add(row);
+      }
+    } catch (SQLException e ) {
+      System.err.println("Trending fail: \n" + e);
+    } finally {  // close the statement connection
+      try {
+        if (st != null) {
+          st.close();
+        }
+      } catch(SQLException ex) {
+        System.out.println(ex.getMessage());
+      }
+    }
+    // result
+    return table;
   }
 }
