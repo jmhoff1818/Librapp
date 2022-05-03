@@ -29,7 +29,7 @@ $(document).ready(function() {
           $.ajax({
              url: `http://localhost:8010/test?search?trending`,
              dataType: "json",
-             success: function(response) {
+              success: function(response) {
                console.log(response)
                if (response.totalItems == 0) {
                  alert("No results could be found for this search")
@@ -61,7 +61,7 @@ $(document).ready(function() {
           dataType: "json",
           success: function(response) {
             console.log(response)
-            if (response.totalItems == 0) {
+            if (response.result.length == 0) {
               alert("No results could be found for this search")
             }
             else {
@@ -90,7 +90,7 @@ $(document).ready(function() {
         rating1 = item.rating;
 
         // in production code, item.text should have the HTML entities escaped.
-        outputList.innerHTML += '<div class="row mt-4">' +
+        outputList.innerHTML += '<div class="row mt-4 justify-content-center">' +
                                 formatOutput(title1, authorfName1, authorlName1, genre1, isbn1, rating1) +
                                 '</div>';
 
@@ -110,7 +110,7 @@ $(document).ready(function() {
                <p class="card-text">Author: ${authorfName} ${authorlName}</p>
                <p class="card-text">Genre: ${genre}</p>
                <p class="card-text">Rating: ${rating}</p>
-               <a target="_blank" href="" class="btn btn-secondary">View Book</a>
+               <a target="_blank" href="bookIsbn" class="btn btn-secondary">View Book</a>
                <a target="_blank" href="" class = "btn btn-secondary">Save Book</a>
              </div>
            </div>
