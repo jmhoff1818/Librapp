@@ -80,25 +80,18 @@ $(document).ready(function() {
 
    //function to display result in search.html
    function displayResults(response) {
-      for (var i = 0; i < response.result.length; i+=2) {
+      for (var i = 0; i < response.result.length; i+=1) {
         item = response.result[i];
         title1 = item.title;
         authorfName1 = item.authorfName;
         authorlName1 = item.authorlName;
         genre1 = item.genre;
         isbn1 = item.isbn;
-
-        item2 = response.result[i+1];
-        title2 = item2.title;
-        authorfName2 = item2.authorFName;
-        authorlName2 = item2.authorLName;
-        genre2 = item2.genre;
-        isbn2 = item2.isbn;
+        rating1 = item.rating;
 
         // in production code, item.text should have the HTML entities escaped.
         outputList.innerHTML += '<div class="row mt-4">' +
-                                formatOutput(title1, authorfName1, authorlName1, genre1, isbn1) +
-                                formatOutput(title2, authorfName2, authorlName2, genre2, isbn2) +
+                                formatOutput(title1, authorfName1, authorlName1, genre1, isbn1, rating1) +
                                 '</div>';
 
         console.log(outputList);
@@ -106,7 +99,7 @@ $(document).ready(function() {
    }
 
    //search result card formatter
-   function formatOutput(title, authorfName, authorlName, genre, bookIsbn) {
+   function formatOutput(title, authorfName, authorlName, genre, bookIsbn, rating) {
      // console.log(title + ""+ author +" "+ publisher +" "+ bookLink+" "+ bookImg)
      var htmlCard = `<div class="col-lg-6">
        <div class="card" style="">
@@ -116,7 +109,7 @@ $(document).ready(function() {
                <h5 class="card-title">${title}</h5>
                <p class="card-text">Author: ${authorfName} ${authorlName}</p>
                <p class="card-text">Genre: ${genre}</p>
-               <p class="card-text">ISBN: ${bookIsbn}</p>
+               <p class="card-text">Rating: ${rating}</p>
                <a target="_blank" href="" class="btn btn-secondary">View Book</a>
                <a target="_blank" href="" class = "btn btn-secondary">Save Book</a>
              </div>
