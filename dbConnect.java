@@ -145,8 +145,13 @@ public class dbConnect {
     try {
       // create statement
       st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-      // first check if user already exit
-      String query = String.format("SELECT * FROM book WHERE %s LIKE '%%%s%%'", metric, searchData);
+      // craft the database query
+      String query = "";
+      if (metric.equals("author")) {
+        query = String.format("SELECT * FROM book WHERE authorfName LIKE '%%%s%%' OR authorlName LIKE '%%%s%%'", searchData, searchData);
+      } else {
+        query = String.format("SELECT * FROM book WHERE %s LIKE '%%%s%%'", metric, searchData);
+      }
       System.out.println(query);
       ResultSet res = st.executeQuery(query);
       // add query data into returned DS
@@ -182,7 +187,7 @@ public class dbConnect {
     try {
       // create statement
       st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-      // first check if user already exit
+      // craft the db query
       String query = "SELECT * FROM book WHERE rating > 3 ORDER BY rating DESC";
       System.out.println(query);
       ResultSet res = st.executeQuery(query);
