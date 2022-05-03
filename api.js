@@ -80,27 +80,25 @@ $(document).ready(function() {
 
    //function to display result in search.html
    function displayResults(response) {
-      for (var i = 0; i < response.items.length; i+=2) {
-        item = response.items[i];
-        title1 = item.volumeInfo.title;
-        author1 = item.volumeInfo.authors;
-        publisher1 = item.volumeInfo.publisher;
-        bookLink1 = item.volumeInfo.previewLink;
-        bookIsbn = item.volumeInfo.industryIdentifiers[1].identifier
-        bookImg1 = (item.volumeInfo.imageLinks) ? item.volumeInfo.imageLinks.thumbnail : placeHldr ;
+      for (var i = 0; i < response.result.length; i+=2) {
+        item = response.result[i];
+        title1 = item.title;
+        authorfName1 = item.authorfName;
+        authorlName1 = item.authorlName;
+        genre1 = item.genre;
+        isbn1 = item.isbn;
 
-        item2 = response.items[i+1];
-        title2 = item2.volumeInfo.title;
-        author2 = item2.volumeInfo.authors;
-        publisher2 = item2.volumeInfo.publisher;
-        bookLink2 = item2.volumeInfo.previewLink;
-        bookIsbn2 = item2.volumeInfo.industryIdentifiers[1].identifier
-        bookImg2 = (item2.volumeInfo.imageLinks) ? item2.volumeInfo.imageLinks.thumbnail : placeHldr ;
+        item2 = response.result[i+1];
+        title2 = item2.title;
+        authorfName2 = item2.authorFName;
+        authorlName2 = item2.authorLName;
+        genre2 = item2.genre;
+        isbn2 = item2.isbn;
 
         // in production code, item.text should have the HTML entities escaped.
         outputList.innerHTML += '<div class="row mt-4">' +
-                                formatOutput(bookImg1, title1, author1, publisher1, bookLink1, bookIsbn) +
-                                formatOutput(bookImg2, title2, author2, publisher2, bookLink2, bookIsbn2) +
+                                formatOutput(title1, authorfName1, authorlName1, genre1, isbn1) +
+                                formatOutput(title2, authorfName2, authorlName2, genre2, isbn2) +
                                 '</div>';
 
         console.log(outputList);
@@ -108,22 +106,19 @@ $(document).ready(function() {
    }
 
    //search result card formatter
-   function formatOutput(bookImg, title, author, publisher, bookLink, bookIsbn) {
+   function formatOutput(title, authorfName, authorlName, genre, bookIsbn) {
      // console.log(title + ""+ author +" "+ publisher +" "+ bookLink+" "+ bookImg)
-     var viewUrl = 'book.html?isbn='+bookIsbn; //constructing link for bookviewer
      var htmlCard = `<div class="col-lg-6">
        <div class="card" style="">
          <div class="row no-gutters">
-           <div class="col-md-4">
-             <img src="${bookImg}" class="card-img">
-           </div>
            <div class="col-md-8">
              <div class="card-body">
                <h5 class="card-title">${title}</h5>
-               <p class="card-text">Author: ${author}</p>
-               <p class="card-text">Publisher: ${publisher}</p>
-               <a target="_blank" href="${viewUrl}" class="btn btn-secondary">View Book</a>
-               <a target="_blank" href="" class = "btn btn-secondary"> Save Book </a>
+               <p class="card-text">Author: ${authorfName} ${authorlName}</p>
+               <p class="card-text">Genre: ${genre}</p>
+               <p class="card-text">ISBN: ${bookIsbn}</p>
+               <a target="_blank" href="" class="btn btn-secondary">View Book</a>
+               <a target="_blank" href="" class = "btn btn-secondary">Save Book</a>
              </div>
            </div>
          </div>
