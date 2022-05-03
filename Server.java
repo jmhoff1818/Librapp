@@ -1,4 +1,5 @@
 import java.util.ArrayList; // import the ArrayList class
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -44,6 +45,18 @@ public class Server implements HttpHandler {
     return processing(type, params);
   }
 
+  public String toJSON(ArrayList<ArrayList<String>> table) {
+    String content = "";
+    for (ArrayList<String> row: table) {
+      String oneRow = "{\"title\":\"%s\",\"authorfName\":\"%s\",\"authorlName\":\"%s\",\"genre\":\"%s\",\"rating\":\"%s\",\"isbn\":\"%s\"}";
+      oneRow = String.format(oneRow, row.get(0), row.get(1), row.get(2), row.get(3), row.get(4), row.get(5));
+      content += oneRow + ",";
+    }
+    // get rid of the last comma
+    content = content.substring(0, content.length() - 1);
+    return String.format("{\"result\":[%s]}", content);
+  }
+
   public String processing(String type, String[] params) {
     // Connect to database
     System.out.println("Connecting to db...");
@@ -64,25 +77,26 @@ public class Server implements HttpHandler {
       String metric = params[2];
       if (metric.equals("trending")) {  // get result based on rating
         ArrayList<ArrayList<String>> res = connection.trending();
-        // testiing
-        for (ArrayList<String> row :res) {
-          for (String entry : row) {
-            System.out.print(entry + ", ");
-          }
-          System.out.println();
-        }
+        // // testiing
+        // for (ArrayList<String> row :res) {
+        //   for (String entry : row) {
+        //     System.out.print(entry + ", ");
+        //   }
+        //   System.out.println();
+        // }
+        return toJSON(res);
       } else {  // get result based on metric
         String searchData = params[3];
         ArrayList<ArrayList<String>> res = connection.search(metric, searchData);
-        // testiing
-        for (ArrayList<String> row :res) {
-          for (String entry : row) {
-            System.out.print(entry + ",");
-          }
-          System.out.println();
-        }
+        // // testiing
+        // for (ArrayList<String> row :res) {
+        //   for (String entry : row) {
+        //     System.out.print(entry + ",");
+        //   }
+        //   System.out.println();
+        // }
+        return toJSON(res);
       }
-      return "good";  //d
     }
   }
 
@@ -103,6 +117,7 @@ public class Server implements HttpHandler {
       /*Testing*/
       // crafting the response headers
       httpExchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+      httpExchange.getResponseHeaders().add("Content-Type", "application/json");
       httpExchange.sendResponseHeaders(200, htmlResponse.length());
       outputStream.write(htmlResponse.getBytes());
       outputStream.flush();
