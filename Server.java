@@ -53,7 +53,9 @@ public class Server implements HttpHandler {
       content += oneRow + ",";
     }
     // get rid of the last comma
-    content = content.substring(0, content.length() - 1);
+    if (!content.equals("")) {
+        content = content.substring(0, content.length() - 1);
+    }
     return String.format("{\"result\":[%s]}", content);
   }
 
