@@ -119,7 +119,9 @@ public class Server implements HttpHandler {
       /*Testing*/
       // crafting the response headers
       httpExchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-      httpExchange.getResponseHeaders().add("Content-Type", "application/json");
+      if (!(htmlResponse.equals("true") || htmlResponse.equals("false"))) {
+          httpExchange.getResponseHeaders().add("Content-Type", "application/json");
+      }
       httpExchange.sendResponseHeaders(200, htmlResponse.length());
       outputStream.write(htmlResponse.getBytes());
       outputStream.flush();
