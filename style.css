@@ -68,5 +68,9 @@ button{
   margin-top: 50px;
   visibility: hidden;
 }
-.dropdown:hover .dropdown-content {display: block;}
-.dropdown-content button:hover {background-color: #ddd;}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content button:hover {
+  background-color: #ddd;
+}

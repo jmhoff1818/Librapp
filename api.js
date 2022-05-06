@@ -1,7 +1,15 @@
+//api.js
+//takes input from search.html, then sends the information to Server.java
+//when a response is recieved from the server, format the search results and
+//sends it back to search.html to display on the webpage
+
+//this file uses jQuery 3.1
+//this can be found at jquery.com
+//we used this library at blocks of code beginning at lines 37 and 69
+
 $(document).ready(function() {
   var item, tile, author, publisher, bookLink, bookImg;
   var outputList = document.getElementById("list-output");
-  var bookUrl = "https://www.googleapis.com/books/v1/volumes?q=";
   var searchData;
 
   //listener for search title button
@@ -23,16 +31,16 @@ $(document).ready(function() {
      });
 
      //listener for trending button
-     $("#trending").click(function() {
+    $("#trending").click(function() {
        outputList.innerHTML = ""; //empty html output
        document.body.style.backgroundImage = "url('')";
           $.ajax({
-             url: `http://localhost:8010/test?search?trending`,
-             dataType: "json",
+             url: `http://localhost:8010/test?search?trending`, //call to the java server with trending as search criteria
+             dataType: "json", //data is returned as a json
               success: function(response) {
                console.log(response)
-               if (response.totalItems == 0) {
-                 alert("No results could be found for this search")
+               if (response.result.length == 0) {
+                 alert("There are no books with a rating of 5")
                }
                else {
                  $("#title").animate({'margin-top': '5px'}, 1000); //search box animation
@@ -41,7 +49,8 @@ $(document).ready(function() {
                }
              },
              error: function () {
-               alert("Something went wrong.. <br>"+"Try again!");
+               //alerts the user if the search doe not work
+               alert("Something went wrong.. <br>"+"Try again! <br>"+"Check internet or database connection");
              }
            });
          $("#search-box").val(""); //clear search box
@@ -53,12 +62,14 @@ $(document).ready(function() {
      searchData = $("#search-box").val();
      //handling empty search input field
      if(searchData === "" || searchData === null) {
-       displayError();
+       //alerts the user if they search for nothing
+       alert("Search term can not be empty!");
      }
     else {
        $.ajax({
+         //call to java server that includes data from searchbar and search type
           url: `http://localhost:8010/test?search?${searchType}?${searchData}`,
-          dataType: "json",
+          dataType: "json",//data is returned as a json
           success: function(response) {
             console.log(response)
             if (response.result.length == 0) {
@@ -71,7 +82,8 @@ $(document).ready(function() {
             }
           },
           error: function () {
-            alert("Something went wrong.. <br>"+"Try again!");
+            //alerts the user if the search doe not work
+            alert("Something went wrong.. <br>"+"Try again! <br>"+"Check internet or database connection");
           }
         });
       }
@@ -89,7 +101,7 @@ $(document).ready(function() {
         isbn1 = item.isbn;
         rating1 = item.rating;
 
-        // in production code, item.text should have the HTML entities escaped.
+        // each search result has its own div, so it is on its own row
         outputList.innerHTML += '<div class="row mt-4 justify-content-center">' +
                                 formatOutput(title1, authorfName1, authorlName1, genre1, isbn1, rating1) +
                                 '</div>';
@@ -100,7 +112,7 @@ $(document).ready(function() {
 
    //search result card formatter
    function formatOutput(title, authorfName, authorlName, genre, bookIsbn, rating) {
-     // console.log(title + ""+ author +" "+ publisher +" "+ bookLink+" "+ bookImg)
+     //creates the html format for the cards the books appear on
      var htmlCard = `<div class="col-lg-6">
        <div class="card" style="">
          <div class="row no-gutters">
@@ -119,10 +131,4 @@ $(document).ready(function() {
      </div>`
      return htmlCard;
    }
-
-   //handling error for empty search box
-   function displayError() {
-     alert("Search term can not be empty!")
-   }
-
 });
